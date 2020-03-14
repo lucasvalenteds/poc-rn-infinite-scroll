@@ -33,5 +33,5 @@ test("It handles pagination via `offset` query parameter", async () => {
   expect(response.data).toStrictEqual({
     notifications: expect.any(Array)
   });
-  expect(response.data.notifications[0].title.startsWith("20 - ")).toBeTruthy();
+  expect(response.data.notifications[0].title.startsWith("21 - ")).toBeTruthy();
 });

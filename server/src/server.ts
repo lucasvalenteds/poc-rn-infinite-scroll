@@ -18,7 +18,7 @@ export const Server = Http.createServer((request, response) => {
 
   const notifications: Notification[] = Array(10)
     .fill(0)
-    .map((_, index) => index + parseInt((offset as string) || "0", 10))
+    .map((_, index) => index + parseInt((offset as string) || "0", 10) + 1)
     .map(offset => ({
       id: UUID.v4(),
       title: `${offset} - ${Faker.lorem.words(3)}`,
