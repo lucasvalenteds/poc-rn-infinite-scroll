@@ -21,7 +21,7 @@ export interface Notifications {
     notifications: Notification[];
 }
 
-export const NotificationListItem: React.FC<ListRenderItemInfo<Notification>> = (props): React.ReactElement => {
+export const NotificationListItem: React.FC<Notification> = (props): React.ReactElement => {
     const style = StyleSheet.create({
         notification: {
             width: "100%",
@@ -40,13 +40,13 @@ export const NotificationListItem: React.FC<ListRenderItemInfo<Notification>> = 
 
     return (
         <TouchableNativeFeedback>
-            <View key={props.item.id} style={style.notification}>
-                <Text style={style.title}>{props.index + 1} - {props.item.title}</Text>
+            <View key={props.id} style={style.notification}>
+                <Text style={style.title}>{props.title}</Text>
                 <Text
                     ellipsizeMode="tail"
                     numberOfLines={2}
                     style={style.content}
-                >{props.item.content}</Text>
+                >{props.content}</Text>
             </View>
         </TouchableNativeFeedback>
     );
@@ -79,7 +79,7 @@ const App: React.FC = (): React.ReactElement => {
           <FlatList
               data={notifications}
               keyExtractor={(item) => item.id}
-              renderItem={(props) => NotificationListItem(props)}
+              renderItem={(props) => NotificationListItem(props.item)}
               onEndReached={() => setOffset((previous: number) => previous + 10)}
               onEndReachedThreshold={0.2}
           />
