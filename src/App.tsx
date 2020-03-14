@@ -63,13 +63,13 @@ const App: React.FC = (): React.ReactElement => {
     <>
       <StatusBar />
       <SafeAreaView>
-            <FlatList
-                data={notifications}
-                keyExtractor={(item) => item.id}
-                renderItem={({item}) => NotificationListItem(item)}
-                onEndReached={() => setOffset((previous: number) => previous + 10)}
-                onEndReachedThreshold={0.7}
-            />
+          <FlatList
+              data={notifications}
+              keyExtractor={(item) => item.id}
+              renderItem={({item}) => NotificationListItem(item)}
+              onEndReached={() => setOffset((previous: number) => previous + 10)}
+              onEndReachedThreshold={0.7}
+          />
       </SafeAreaView>
     </>
   );
