@@ -1,6 +1,6 @@
 # POC: Infinite Scroll
 
-It demonstrate how to fetch new elements to a list when the scroll reaches the end of the screen.
+It demonstrate how to fetch data from a server and append them to a list when the scroll reaches the end of the screen.
 
 ## How to run
 
