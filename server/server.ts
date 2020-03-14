@@ -11,17 +11,20 @@ export interface Notification {
 }
 
 export const Server = Http.createServer((request, response) => {
-    const url: QueryString.ParsedUrlQuery = Url.parse(request.url || '', true).query;
+    const url: QueryString.ParsedUrlQuery = Url.parse((request.url as string), true).query;
+
+    const {offset} = url;
 
     const notifications: Notification[] = Array(10).fill(0)
-    .map((_, index) => index + parseInt(url.offset.toString(), 10))
-    .map(() => ({
+    .map((_, index) => index + parseInt((offset as string) || '0', 10))
+    .map((offset) => ({
         id: UUID.v4(),
-        title: Faker.lorem.words(3),
+        title: `${offset} - ${Faker.lorem.words(3)}`,
         content: Faker.lorem.paragraph(1),
     }));
 
-    response.setHeader("Content-Type", "application/json");
+    response.setHeader('Content-Type', 'application/json');
     response.statusCode = 200;
-    response.end(JSON.stringify({ notifications }));
+    response.write(JSON.stringify({ notifications }));
+    response.end();
 });
