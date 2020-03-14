@@ -12,6 +12,7 @@ It demonstrate how to fetch new elements to a list when the scroll reaches the e
 | Run tests | `npm test` |
 | Start Metro | `npm start` |
 | Run app | `npm run android` |
+| Forward localhost requests | `npm run forward` |
 
 ### Server
 
