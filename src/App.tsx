@@ -7,6 +7,7 @@ import {
   View,
   TouchableNativeFeedback,
   StyleSheet,
+  ListRenderItemInfo,
 } from 'react-native';
 import Axios, {AxiosResponse} from 'axios';
 
@@ -20,7 +21,7 @@ export interface Notifications {
     notifications: Notification[];
 }
 
-export const NotificationListItem: React.FC<Notification> = (props): React.ReactElement => {
+export const NotificationListItem: React.FC<ListRenderItemInfo<Notification>> = (props): React.ReactElement => {
     const style = StyleSheet.create({
         notification: {
             width: "100%",
@@ -28,18 +29,24 @@ export const NotificationListItem: React.FC<Notification> = (props): React.React
             paddingVertical: 16,
         },
         title: {
-            fontSize: 22,
+            fontSize: 16,
+            fontWeight: "bold",
         },
         content: {
             fontSize: 16,
+            fontStyle: "normal",
         },
     });
 
     return (
         <TouchableNativeFeedback>
-            <View key={props.id} style={style.notification}>
-                <Text style={style.title}>{props.title}</Text>
-                <Text style={style.content}>{props.content}</Text>
+            <View key={props.item.id} style={style.notification}>
+                <Text style={style.title}>{props.index + 1} - {props.item.title}</Text>
+                <Text
+                    ellipsizeMode="tail"
+                    numberOfLines={2}
+                    style={style.content}
+                >{props.item.content}</Text>
             </View>
         </TouchableNativeFeedback>
     );
@@ -50,7 +57,12 @@ const App: React.FC = (): React.ReactElement => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
+      if (offset >= 50) {
+          return;
+      }
+
       console.debug('Offset changed', offset);
+
       Axios.get("http://localhost:8080/?offset=" + offset)
           .then((response: AxiosResponse<Notifications>) => {
               setNotifications((previous: Notification[]) => [
@@ -67,7 +79,7 @@ const App: React.FC = (): React.ReactElement => {
           <FlatList
               data={notifications}
               keyExtractor={(item) => item.id}
-              renderItem={({item}) => NotificationListItem(item)}
+              renderItem={(props) => NotificationListItem(props)}
               onEndReached={() => setOffset((previous: number) => previous + 10)}
               onEndReachedThreshold={0.2}
           />
