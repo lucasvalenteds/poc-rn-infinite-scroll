@@ -52,7 +52,10 @@ const App: React.FC = (): React.ReactElement => {
   useEffect(() => {
       Axios.get("http://localhost:8080/?offset=" + offset)
           .then((response: AxiosResponse<Notifications>) => {
-              setNotifications(response.data.notifications)
+              setNotifications((previous: Notification[]) => [
+                  ...previous,
+                  ...response.data.notifications,
+              ]);
           });
   }, [offset]);
 
@@ -64,6 +67,8 @@ const App: React.FC = (): React.ReactElement => {
                 data={notifications}
                 keyExtractor={(item) => item.id}
                 renderItem={({item}) => NotificationListItem(item)}
+                onEndReached={() => setOffset((previous: number) => previous + 10)}
+                onEndReachedThreshold={0.7}
             />
       </SafeAreaView>
     </>
